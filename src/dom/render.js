@@ -135,7 +135,6 @@ function expandTask(task, onDeleteTask, onEditTask) {
             const newNotes = document.getElementById("edit-notes").value;
             const newStatus = editTaskDialog.querySelector(".status>input").checked;
             const form = document.querySelector(".editTaskDialog form");
-            console.log(newStatus);
             form.reset();
             onEditTask(task,{newTitle,newDueDate,newDesc,newPriority,newNotes,newStatus});
             editTaskDialog.close();
