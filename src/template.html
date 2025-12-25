@@ -57,8 +57,7 @@
                     </div>
                     <div class="todayDate">
                         <div>
-                            <p>24 Dec 2025 ,</p>
-                            <p>Tuesday</p>
+                            <p>24 Dec 2025 ,Wednesday</p>
                         </div>
                     </div>
                 </div>
@@ -68,8 +67,8 @@
                         <p>Hi there, <br> <span>Ice Bear (@polarpaw)</span></p>
                     </div>
                     <div class="buttons">
-                        <button class="new">New Task</button>
-                        <button class="upload">New Project</button>
+                        <button class="new-task">New Task</button>
+                        <button class="new-project">New Project</button>
                     </div>
 
                 </div>
@@ -160,6 +159,15 @@
                 <input type="checkbox" name="status"/> 
             </label>
             <button type="submit" class="form-submit">Save Changes</button>
+        </form>
+    </dialog>
+    <dialog class="newProjectDialog">
+        <form action="#">
+            <div class="form-row">
+                <label for="project-name">Project Name:</label>
+            <input type="text" id="project-name" name="project-name" required>
+            </div>
+            <button type="submit" class="form-submit">Add Project</button>
         </form>
     </dialog>
 </body>

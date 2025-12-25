@@ -2,7 +2,7 @@ import "./styles.css";
 import { createTodo, updateTodo, toggleTodo } from "./logic/todo.js";
 import { createProject, addTodoToProject, removeTodoFromProject } from "./logic/project.js";
 import { state, setActiveProject, getActiveProject } from "./logic/state.js";
-import { renderActiveProjectTodos, renderListOfProjects, newTaskForm } from "./dom/render.js";
+import { renderActiveProjectTodos, renderListOfProjects, updateTodayDate } from "./dom/render.js";
 import { storageAvailable } from "./storage/check.js";
 import { loadStateFromStorage, saveStateToStorage } from "./storage/storage.js";
 
@@ -40,7 +40,13 @@ if (!stored) {
 render();
 
 function render(){
-    renderListOfProjects(state.projects,handleProjectSelect);
+
+    updateTodayDate();
+
+    renderListOfProjects(state.projects,
+        handleProjectSelect,
+         handleAddNewProject);
+
     renderActiveProjectTodos(
         getActiveProject(),
         handleAddNewTodo,
@@ -76,6 +82,13 @@ function handleEditTodo(todo,{newTitle,newDueDate,newDesc,newPriority,newNotes,n
     render();
 }
 
+function handleAddNewProject(name){
+    let newProject = createProject(name);
+    state.projects.push(newProject);
+    setActiveProject(newProject.id);
+    saveStateToStorage(state);
+    render();
+}
 
 
 

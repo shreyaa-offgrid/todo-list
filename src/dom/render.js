@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 function createElement(tag, className, text) {
 
     const el = document.createElement(tag);
@@ -10,7 +11,13 @@ function createElement(tag, className, text) {
     return el;
 }
 
-export function renderListOfProjects(storedProjects, onProjectSelect) {
+export function updateTodayDate(){
+    let formattedDate = format(new Date(), "dd MMMM yyyy,  EEEE");
+    let headerDate = document.querySelector(".todayDate p");
+    headerDate.textContent = formattedDate;
+}
+
+export function renderListOfProjects(storedProjects, onProjectSelect, onAddNewProject) {
 
     let len = storedProjects.length;
     const lists = document.querySelector(".lists");
@@ -33,6 +40,19 @@ export function renderListOfProjects(storedProjects, onProjectSelect) {
         list.append(name, num);
         lists.appendChild(list);
     }
+    const newProjectBtn = document.querySelector(".actions .new-project");
+    const newProjectDialog = document.querySelector(".newProjectDialog");
+    const saveNewProjectBtn = document.querySelector(".newProjectDialog button");
+    saveNewProjectBtn.onclick = (e) => {
+        e.preventDefault();
+        const pName = newProjectDialog.querySelector("#project-name").value;
+        if (!pName.trim()) return;
+        onAddNewProject(pName);
+        newProjectDialog.close();
+    };
+    newProjectBtn.onclick = () => {
+        newProjectDialog.showModal();
+    };
 }
 
 export function renderActiveProjectTodos(activeProject, onAddNewTask, onDeleteTask, onEditTask) {
@@ -62,7 +82,13 @@ export function renderActiveProjectTodos(activeProject, onAddNewTask, onDeleteTa
     });
     const promptText = createElement("p", "", "New Task");
     newTask.appendChild(promptText);
+
     cardsGrid.appendChild(newTask);
+
+    const headerNewTaskBtn = document.querySelector(".actions .new-task");
+    headerNewTaskBtn.onclick = () => {
+        newTaskForm(onAddNewTask)
+    };
 }
 
 function renderTodo(task, cardsGrid, onDeleteTask, onEditTask) {
@@ -136,7 +162,7 @@ function expandTask(task, onDeleteTask, onEditTask) {
             const newStatus = editTaskDialog.querySelector(".status>input").checked;
             const form = document.querySelector(".editTaskDialog form");
             form.reset();
-            onEditTask(task,{newTitle,newDueDate,newDesc,newPriority,newNotes,newStatus});
+            onEditTask(task, { newTitle, newDueDate, newDesc, newPriority, newNotes, newStatus });
             editTaskDialog.close();
         };
 
@@ -216,38 +242,6 @@ export function newTaskForm(onAddNewTask) {
 }
 
 
-
-
-
-// function createField({ labelText, name, value = "", type = "text" }) {
-//     const wrapper = document.createElement("div");
-
-//     const label = createElement("label", "", labelText);
-//     label.setAttribute("for", name);
-
-//     const input = createElement("input");
-//     input.name = name;
-//     input.type = type;
-//     input.value = value;
-//     input.id = name;
-//     wrapper.append(label, input);
-//     return wrapper;
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-const newTaskBtn = document.querySelector(".actions .new");
-newTaskBtn.addEventListener("click", () => taskEditForm())
 
 
 

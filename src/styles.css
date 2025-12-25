@@ -119,14 +119,6 @@ a {
     grid-column: 5/6;
 }
 
-.todayDate div{
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 1em;
-    margin-right: 1em;
-}
-
 .search>img {
     width: 1.5em;
     height: 1.5em;
@@ -302,7 +294,8 @@ input {
 
 .detailDialog .btnDiv button, 
 .formDialog button,
-.editTaskDialog button{
+.editTaskDialog button,
+.newProjectDialog button{
     width: 6em;
     height: 2em;
     border-radius: 0.5em;
@@ -323,13 +316,15 @@ input {
 
 .detailDialog button:hover,
 .formDialog button:hover,
-.editTaskDialog button:hover{
+.editTaskDialog button:hover,
+.newProjectDialog button:hover{
     background-color: #0d628f;
 }
 
 .detailDialog button:active,
 .formDialog button:active,
-.editTaskDialog button:active{
+.editTaskDialog button:active,
+.newProjectDialog button:active{
     transform: scale(1.05);
 }
 
@@ -345,14 +340,16 @@ input {
 }
 
 .formDialog form,
-.editTaskDialog form{
+.editTaskDialog form,
+.newProjectDialog form{
     display: flex;
     flex-direction: column;
     gap:0.5em;
 }
 
 .formDialog .form-row,
-.editTaskDialog .form-row{
+.editTaskDialog .form-row,
+.newProjectDialog .form-row{
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -378,13 +375,28 @@ form .status{
 }
 
 .formDialog form button,
-.editTaskDialog form button{
+.editTaskDialog form button,
+.newProjectDialog form button{
     align-self: flex-end;
 }
 
 .editTaskDialog form button{
     height: 3em;
     width: 8em;
+}
+
+.newProjectDialog{
+    height: 30vh;
+    width: 35vw;
+    margin:auto;
+    border: none;
+    border-radius: 2em;
+    padding: 2em;
+    font-size: 1.1em;
+}
+
+.newProjectDialog button{
+    margin-top: 1em;
 }
 
 
