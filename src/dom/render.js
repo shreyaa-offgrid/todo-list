@@ -17,7 +17,7 @@ export function updateTodayDate() {
     headerDate.textContent = formattedDate;
 }
 
-export function renderListOfProjects(storedProjects, onProjectSelect, onAddNewProject) {
+export function renderListOfProjects(storedProjects, onProjectSelect, onAddNewProject, onViewSelect, {todayCnt, weekCnt, allCnt}) {
 
     let len = storedProjects.length;
     const lists = document.querySelector(".lists");
@@ -56,9 +56,28 @@ export function renderListOfProjects(storedProjects, onProjectSelect, onAddNewPr
     newProjectBtn.onclick = () => {
         newProjectDialog.showModal();
     };
+
+    const todayView = document.querySelector(".view.today");
+    todayView.onclick = ()=>{
+        onViewSelect("view-today");
+    }
+    todayView.querySelector(".num").textContent = `(${todayCnt})`;
+
+    const weekView = document.querySelector(".view.week");
+    weekView.onclick = ()=>{
+        onViewSelect("view-week");
+    }
+    weekView.querySelector(".num").textContent = `(${weekCnt})`;
+
+    const allView = document.querySelector(".view.all");
+    allView.onclick = ()=>{
+        onViewSelect("view-all");
+    }
+    allView.querySelector(".num").textContent = `(${allCnt})`;
+    
 }
 
-export function renderActiveProjectTodos(activeProject, onAddNewTask, onDeleteTask, onEditTask, activeView) {
+export function renderActiveProjectTodos(activeProject, onAddNewTask, onDeleteTask, onEditTask, isView) {
 
     const activeProjectDiv = document.querySelector(".active-project");
     activeProjectDiv.replaceChildren();
@@ -92,7 +111,12 @@ export function renderActiveProjectTodos(activeProject, onAddNewTask, onDeleteTa
     headerNewTaskBtn.onclick = () => {
         newTaskForm(onAddNewTask)
     };
-
+    if(isView){
+        newTask.style.display = "none";
+        headerNewTaskBtn.style.display = "none";
+    }else{
+        headerNewTaskBtn.style.display = "block";
+    }
 }
 
 function renderTodo(task, cardsGrid, onDeleteTask, onEditTask) {
@@ -119,6 +143,9 @@ function renderTodo(task, cardsGrid, onDeleteTask, onEditTask) {
 
     card.append(title, date);
 
+    if(task.completed){
+        card.classList.add("completed");
+    }
     cardContainer.appendChild(card);
     cardsGrid.appendChild(cardContainer);
 }
@@ -138,6 +165,7 @@ function expandTask(task, onDeleteTask, onEditTask) {
     const dueDate = createElement("p", "", `Due Date: ${format(parseISO(task.dueDate), "dd MMM yyyy, EEEE")}`);
     const desc = createElement("p", "", `Description: ${task.desc}`);
     const notes = createElement("p", "", task.notes);
+    const status = createElement("p","",`Status: ${task.completed?"Completed":"Pending"}`);
 
     const btnDiv = createElement("div", "btnDiv");
     const closeBtn = createElement("button", "closeDialogBtn", "Close");
@@ -219,6 +247,7 @@ function expandTask(task, onDeleteTask, onEditTask) {
         dueDate,
         priority,
         notes,
+        status,
         btnDiv
     );
     detailDialog.append(title, flexContainer);

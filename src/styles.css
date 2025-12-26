@@ -62,10 +62,10 @@ a {
     justify-content:space-between;
 }
 
-.list:hover{
-    transform:translate(1em);
+.list:hover, .view:hover{
+    transform:translate(0.5em);
 }
-.list:active{
+.list:active, .view:active{
     transform: scale(1.05);
 }
 
@@ -239,6 +239,15 @@ input {
 .card.default{
     border-left: 1em  #1992d4 solid;
 }
+
+.card.completed{
+    background-color: #BFCBDC;
+    border-left: 1em #BFCBDC solid;
+}
+.card.completed h4{
+    text-decoration: line-through;
+}
+
 .card div.titleBox{
     display: flex;
     align-items: center;
@@ -398,5 +407,6 @@ form .status{
 .newProjectDialog button{
     margin-top: 1em;
 }
+
 
 

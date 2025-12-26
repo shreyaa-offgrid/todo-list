@@ -6,7 +6,7 @@ function getAllTodos(state){
     return allTodos;
 }
 
-function getTodayView(state){
+export function getTodayView(state){
     let today = [];
     const allTodos = getAllTodos(state);
     allTodos.forEach(todo => {
@@ -17,7 +17,7 @@ function getTodayView(state){
     return {projectName: "Today", todos: today};
 }
 
-function getWeekView(state){
+export function getWeekView(state){
     let week = [];
     const allTodos = getAllTodos(state);
     allTodos.forEach(todo => {
@@ -28,6 +28,6 @@ function getWeekView(state){
     return {projectName: "This Week", todos: week };
 }
 
-function getAllView(state){
+export function getAllView(state){
     return {projectName: "All Time", todos: getAllTodos(state)};
 }
