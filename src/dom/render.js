@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 function createElement(tag, className, text) {
 
     const el = document.createElement(tag);
@@ -11,7 +11,7 @@ function createElement(tag, className, text) {
     return el;
 }
 
-export function updateTodayDate(){
+export function updateTodayDate() {
     let formattedDate = format(new Date(), "dd MMMM yyyy,  EEEE");
     let headerDate = document.querySelector(".todayDate p");
     headerDate.textContent = formattedDate;
@@ -46,7 +46,10 @@ export function renderListOfProjects(storedProjects, onProjectSelect, onAddNewPr
     saveNewProjectBtn.onclick = (e) => {
         e.preventDefault();
         const pName = newProjectDialog.querySelector("#project-name").value;
-        if (!pName.trim()) return;
+        if (!pName.trim()) {
+            alert("Must have name");
+            return;
+        }
         onAddNewProject(pName);
         newProjectDialog.close();
     };
@@ -55,7 +58,7 @@ export function renderListOfProjects(storedProjects, onProjectSelect, onAddNewPr
     };
 }
 
-export function renderActiveProjectTodos(activeProject, onAddNewTask, onDeleteTask, onEditTask) {
+export function renderActiveProjectTodos(activeProject, onAddNewTask, onDeleteTask, onEditTask, activeView) {
 
     const activeProjectDiv = document.querySelector(".active-project");
     activeProjectDiv.replaceChildren();
@@ -73,7 +76,7 @@ export function renderActiveProjectTodos(activeProject, onAddNewTask, onDeleteTa
         let todo = todos[i];
         renderTodo(todo, cardsGrid, onDeleteTask, onEditTask);
     }
-
+    
     const newTask = createElement("div", "newTask");
     const newTaskBtn = createElement("button", "newTaskBtn", "+");
     newTask.appendChild(newTaskBtn);
@@ -89,6 +92,7 @@ export function renderActiveProjectTodos(activeProject, onAddNewTask, onDeleteTa
     headerNewTaskBtn.onclick = () => {
         newTaskForm(onAddNewTask)
     };
+
 }
 
 function renderTodo(task, cardsGrid, onDeleteTask, onEditTask) {
@@ -111,7 +115,7 @@ function renderTodo(task, cardsGrid, onDeleteTask, onEditTask) {
     }
 
     const title = createElement("h4", "", task.title);
-    const date = createElement("p", "", task.dueDate);
+    const date = createElement("p", "", format(parseISO(task.dueDate), "dd MMM , EEE"));
 
     card.append(title, date);
 
@@ -131,7 +135,7 @@ function expandTask(task, onDeleteTask, onEditTask) {
 
     const title = createElement("h2", "", task.title);
     const priority = createElement("p", "", `Priority: ${task.priority}`);
-    const dueDate = createElement("p", "", `Due Date: ${task.dueDate}`);
+    const dueDate = createElement("p", "", `Due Date: ${format(parseISO(task.dueDate), "dd MMM yyyy, EEEE")}`);
     const desc = createElement("p", "", `Description: ${task.desc}`);
     const notes = createElement("p", "", task.notes);
 
@@ -161,6 +165,10 @@ function expandTask(task, onDeleteTask, onEditTask) {
             const newNotes = document.getElementById("edit-notes").value;
             const newStatus = editTaskDialog.querySelector(".status>input").checked;
             const form = document.querySelector(".editTaskDialog form");
+            if (!newTitle || !newDueDate) {
+                alert("Must have a due date and title");
+                return;
+            }
             form.reset();
             onEditTask(task, { newTitle, newDueDate, newDesc, newPriority, newNotes, newStatus });
             editTaskDialog.close();
@@ -235,6 +243,10 @@ export function newTaskForm(onAddNewTask) {
         const notes = document.getElementById("notes").value;
         const status = document.querySelector(".status>input").checked;
         const form = document.querySelector(".formDialog form");
+        if (!title || !dueDate) {
+            alert("Must have a due date and title");
+            return;
+        }
         form.reset();
         onAddNewTask({ title, dueDate, desc, priority, notes, status });
         formDialog.close();

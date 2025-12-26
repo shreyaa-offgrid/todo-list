@@ -11,19 +11,19 @@ const stored = loadStateFromStorage();
 if (!stored) {
     const inbox = createProject("Inbox");
     addTodoToProject(inbox,createTodo("Test1",
-        {dueDate:"23-Dec-2025", 
+        {dueDate:"2025-12-23", 
         notes:"I am a note",
         desc:"This is a test todo",
         priority:"high",}
     ));
     addTodoToProject(inbox,createTodo("Test2",
-        {dueDate: "24-Dec-2025",
+        {dueDate: "2025-12-24",
         notes: "These are some notes",
         desc: "This is a description",
         priority: "low",}
     ));
     addTodoToProject(inbox,createTodo("Test3",
-        {dueDate: "25-Dec-2025",
+        {dueDate: "2025-12-25",
         notes: "I made these notes",
         desc: "Merry Chrysler",}
     ));
@@ -89,6 +89,20 @@ function handleAddNewProject(name){
     saveStateToStorage(state);
     render();
 }
+
+if (activeView !== null) {
+        switch (activeView) {
+            case "view-today":
+
+                break;
+            case "view-week":
+
+                break;
+            case "view-all":
+
+                break;
+        }
+    } else { }
 
 
 
